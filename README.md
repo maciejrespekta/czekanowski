@@ -1,10 +1,10 @@
-# Jan Czekanowski’s 1905 Expedition Map  
+# Jan Czekanowski’s 1905-1907 Expedition Map  
 
-This repository contains a Shiny application that visualizes the journey of Polish anthropologist **Jan Czekanowski** during his 1905 expedition in East Africa.  
+This repository contains an interactive map that visualizes the journey of Polish anthropologist **Jan Czekanowski** during his 1905-1907 expedition in East and Central Africa.  
 
-Czekanowski was among the first Europeans to take **photographs in Rwanda** (1905), many of which are preserved today at the **Richard Kandt House Museum in Kigali**. His detailed **fieldwork diary** provides an extraordinary record of his anthropological and ethnographic observations.  
+Czekanowski was among the first Europeans to take **photographs in Rwanda** (1905), many of which are displayed today at the **Richard Kandt House Museum in Kigali**. His detailed **fieldwork diary** provides an extraordinary record of his anthropological and ethnographic observations.  
 
-Using entries from his diary, this project maps his journey **point by point**, allowing users to explore the route interactively. The application overlays his field notes with modern geographic data, creating a digital re-tracing of his path.  
+Using entries from his fieldwork diary, this project maps his journey **point by point**, allowing users to explore the route interactively. The application overlays his field notes with modern geographic data, creating a digital re-tracing of his path. (project not yet completed)  
 
 ---
 
@@ -53,3 +53,9 @@ These were transcribed, cleaned, and geolocated from Czekanowski’s published d
   Dataset preparation, transcription of diary entries, geolocation, and interactive map development by **Maciej Respekta (2025)**.  
 
 ---
+
+## 📜 License  
+
+- The **code** is released under the [MIT License](LICENSE-CODE).  
+- The **dataset** (`Jan_Czekanowski.csv`) is released under a  
+  [Creative Commons Attribution–NonCommercial 4.0 International License](LICENSE-DATA).  
