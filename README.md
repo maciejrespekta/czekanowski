@@ -54,6 +54,14 @@ These were transcribed, cleaned, and geolocated from Czekanowski’s published d
 
 ---
 
+## 🌍 Live App  
+
+You can explore the interactive map here:  
+
+👉 [https://dndefs-maciejrespekta.shinyapps.io/czekanowski/](https://dndefs-maciejrespekta.shinyapps.io/czekanowski/)  
+
+---
+
 ## 📜 License  
 
 - The **code** is released under the [MIT License](LICENSE-CODE).  
