@@ -58,7 +58,7 @@ These were transcribed, cleaned, and geolocated from Czekanowski’s published d
 
 You can explore the interactive map here:  
 
-👉 [https://dndefs-maciejrespekta.shinyapps.io/czekanowski/](https://dndefs-maciejrespekta.shinyapps.io/czekanowski/)  
+👉 [https://jan-czekanowski-582032085153.europe-central2.run.app](https://jan-czekanowski-582032085153.europe-central2.run.app)  
 
 ---
 
