@@ -1,10 +1,18 @@
 FROM rocker/shiny:4.3.1
 
+
 RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     libssl-dev \
     libxml2-dev \
     libpq-dev \
+    libgdal-dev \
+    libproj-dev \
+    libgeos-dev \
+    proj-bin \
+    gdal-bin \
+    libudunits2-dev \
+    libsqlite3-dev \
     && apt-get clean
 
 RUN R -e "install.packages(c('shiny', 'leaflet', 'tidyverse', 'htmlwidgets', 'sf', 'geosphere'))"
