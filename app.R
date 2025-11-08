@@ -32,36 +32,36 @@ generate_gc_lines <- function(lon, lat, n = 50) {
   return(gc_data)
 }
 
-# Get smoothed lines
-gc_data <- generate_gc_lines(czekanowski_clean$longitude, czekanowski_clean$latitude)
 
-# Convert to sf object
-gc_sf <- st_as_sf(gc_data, coords = c("lon", "lat"), crs = 4326)
+ui <- fluidPage(
+  
+  tags$head(
+    tags$style(HTML("
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .container-fluid {
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+    #map {
+      height: 100vh;
+      width: 100vw;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  "))
+  ),
+  leafletOutput("map", width = "100%", height = "100%")
+)
 
-gc_line <- gc_sf %>%
-  summarise(geometry = st_combine(geometry)) %>%  # Combine points
-  st_cast("LINESTRING")  # Convert to LINESTRING
 
-
-czekanowski <- read_csv("Jan_Czekanowski.csv")
-
-czekanowski_clean <- czekanowski %>%
-  drop_na(Data, Nazwa, GPS) %>%
-  mutate(GPS = str_remove_all(GPS, "\\(|\\)")) %>%  # Remove parentheses
-  separate(
-    GPS,
-    into = c("latitude", "longitude"),
-    sep = ", ",
-    convert = TRUE  # Automatically converts to numeric
-  )
-
-
-czekanowski_sp <- st_as_sf(czekanowski_clean, coords = c("longitude", "latitude"), crs = 4326)
-
-# Convert points to LINESTRING
-czekanowski_line <- czekanowski_sp %>%
-  summarise(geometry = st_combine(geometry)) %>%  # Combine points
-  st_cast("LINESTRING")  # Convert to LINESTRING
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -69,16 +69,25 @@ ui <- fluidPage(
   # Application title
   #titlePanel("Podróż Jana Czekanowskiego"),
   tags$style(HTML("
-            html, body {
-                height: 100%;
-                margin: 0;
-                padding: 0;
-            }
-            #map {
-                height: 100%;
-                width: 100%;
-                position: fixed;
-            }
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .container-fluid {
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+    #map {
+      height: 100vh;
+      width: 100vw;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
             #title-overlay {
           position: absolute;
           bottom: 10px;
@@ -100,6 +109,32 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
+  czekanowski_clean <- read_csv("Jan_Czekanowski.csv") %>%
+    drop_na(Data, Nazwa, GPS) %>%
+    mutate(GPS = str_remove_all(GPS, "\\(|\\)")) %>%  # Remove parentheses
+    separate(
+      GPS,
+      into = c("latitude", "longitude"),
+      sep = ", ",
+      convert = TRUE  # Automatically converts to numeric
+    ) 
+  
+  
+  czekanowski_sp <-  czekanowski_clean %>%
+    st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+  
+
+  
+  # Get smoothed lines
+  gc_data <- generate_gc_lines(czekanowski_clean$longitude, czekanowski_clean$latitude)
+  
+  # Convert to sf object
+  gc_sf <- st_as_sf(gc_data, coords = c("lon", "lat"), crs = 4326)
+  
+  gc_line <- gc_sf %>%
+    summarise(geometry = st_combine(geometry)) %>%  # Combine points
+    st_cast("LINESTRING")  # Convert to LINESTRING
+  
   
   output$map <- renderLeaflet({
     leaflet(data = czekanowski_sp) %>%
@@ -110,7 +145,6 @@ server <- function(input, output) {
       addProviderTiles("OpenTopoMap", group = "OpenTopoMap") %>%
       addProviderTiles("Esri.WorldImagery", group = "Esri Satellite") %>%
       addMarkers(data = czekanowski_sp, popup = ~paste("<b>", Nazwa, "</b><br>", Data)) %>%
-      #addPolylines(data = czekanowski_line, color = "blue", weight = 2, opacity = 0.8) %>%
       addPolylines(data = gc_line, color = "blue", weight = 3, opacity = 0.8, dashArray = "5,5") %>%
       addLayersControl(
         baseGroups = c("OpenStreetMap", 
